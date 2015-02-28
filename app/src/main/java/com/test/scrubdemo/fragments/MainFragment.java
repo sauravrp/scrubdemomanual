@@ -509,13 +509,13 @@ public class MainFragment extends BaseFragment
         }
     }
 
-    static class AsyncDrawable extends ColorDrawable
+    static class AsyncDrawable extends BitmapDrawable
     {
         private final WeakReference<BitmapWorkerTask> bitmapWorkerTaskWeakReference;
 
         public AsyncDrawable(BitmapWorkerTask bitmapWorkerTaskWeakReference)
         {
-            super(Color.BLACK);
+            super(Utils.getBitmap());
             this.bitmapWorkerTaskWeakReference = new WeakReference<BitmapWorkerTask>(bitmapWorkerTaskWeakReference);
         }
 

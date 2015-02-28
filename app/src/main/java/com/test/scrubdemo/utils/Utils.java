@@ -23,6 +23,11 @@ public class Utils
         sBitmapOptions = new BitmapFactory.Options();
         sCount = 0;
     }
+
+    public static Bitmap getBitmap()
+    {
+        return sBitmap;
+    }
     private static boolean sLogEnabled = false;
 
     public static void enableLogging(boolean enable)
