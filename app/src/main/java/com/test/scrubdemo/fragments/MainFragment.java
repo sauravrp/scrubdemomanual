@@ -172,7 +172,14 @@ public class MainFragment extends BaseFragment
     public void onResume()
     {
         super.onResume();
-        showAsset(mAppState.mSeekBarProgressIndex);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run()
+            {
+                showAsset(mAppState.mSeekBarProgressIndex);
+            }
+        }, 200);
+
     }
 
     @Override

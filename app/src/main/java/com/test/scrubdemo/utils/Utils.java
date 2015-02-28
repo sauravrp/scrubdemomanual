@@ -15,13 +15,11 @@ import java.io.InputStream;
 public class Utils
 {
     private static Bitmap sBitmap;
-    private static int sCount;
     private static BitmapFactory.Options sBitmapOptions;
 
     static
     {
         sBitmapOptions = new BitmapFactory.Options();
-        sCount = 0;
     }
 
     public static Bitmap getBitmap()
@@ -79,8 +77,7 @@ public class Utils
     public static Bitmap decodeSampledBitmapFromAsset(Resources resources, final String fileName,
                                                          int reqWidth, int reqHeight) throws IOException
     {
-
-        if(sCount <= 2)
+        if(sBitmap == null)
         {
             InputStream is1 = resources.getAssets().open(fileName);
 
@@ -96,7 +93,6 @@ public class Utils
 
             // Decode bitmap with inSampleSize set
             sBitmapOptions.inJustDecodeBounds = false;
-            sCount++;
         }
         else
         {
