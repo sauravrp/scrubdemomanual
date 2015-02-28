@@ -15,11 +15,13 @@ import java.io.InputStream;
 public class Utils
 {
     private static Bitmap sBitmap;
+    private static int sCount;
     private static BitmapFactory.Options sBitmapOptions;
 
     static
     {
         sBitmapOptions = new BitmapFactory.Options();
+        sCount = 0;
     }
     private static boolean sLogEnabled = false;
 
@@ -72,21 +74,34 @@ public class Utils
     public static Bitmap decodeSampledBitmapFromAsset(Resources resources, final String fileName,
                                                          int reqWidth, int reqHeight) throws IOException
     {
-        InputStream is1 = resources.getAssets().open(fileName);
 
-        // First decode with inJustDecodeBounds=true to check dimensions
+        if(sCount <= 2)
+        {
+            InputStream is1 = resources.getAssets().open(fileName);
 
-        sBitmapOptions.inJustDecodeBounds = true;
-        //Rect outpadding = new Rect();
-        sBitmap = BitmapFactory.decodeStream(is1, null, sBitmapOptions);
+            // First decode with inJustDecodeBounds=true to check dimensions
 
-        // Calculate inSampleSize
-        sBitmapOptions.inSampleSize = calculateInSampleSize(sBitmapOptions, reqWidth, reqHeight);
+            sBitmapOptions.inJustDecodeBounds = true;
+            sBitmapOptions.inMutable = true;
+            //Rect outpadding = new Rect();
+            sBitmap = BitmapFactory.decodeStream(is1, null, sBitmapOptions);
+
+            // Calculate inSampleSize
+            sBitmapOptions.inSampleSize = calculateInSampleSize(sBitmapOptions, reqWidth, reqHeight);
+
+            // Decode bitmap with inSampleSize set
+            sBitmapOptions.inJustDecodeBounds = false;
+            sCount++;
+        }
+        else
+        {
+            sBitmapOptions.inBitmap = sBitmap;
+        }
 
         InputStream is2 = resources.getAssets().open(fileName);
-        // Decode bitmap with inSampleSize set
-        sBitmapOptions.inJustDecodeBounds = false;
+
         sBitmap = BitmapFactory.decodeStream(is2, null, sBitmapOptions);
+
         return sBitmap;
     }
 
